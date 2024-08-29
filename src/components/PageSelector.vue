@@ -2,7 +2,7 @@
   <div class="page-selector">
     <div class="select-all">
       <label>
-        <span>Select All</span>
+        <span>All Pages</span>
         <input type="checkbox" v-model="selectAll" @change="toggleAll" />
         <span class="checkmark"></span>
       </label>
