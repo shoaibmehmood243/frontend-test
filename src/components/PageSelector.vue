@@ -4,6 +4,7 @@
       <label>
         <span>Select All</span>
         <input type="checkbox" v-model="selectAll" @change="toggleAll" />
+        <span class="checkmark"></span>
       </label>
     </div>
     <div class="divider"></div>
@@ -17,6 +18,7 @@
             v-model="page.selected"
             @change="updateSelectAll"
           />
+          <span class="checkmark"></span>
         </label>
       </div>
     </div>
@@ -55,12 +57,11 @@ export default {
     });
 
     const showSelectedPages = () => {
-      const selected = selectedPages.value;
-      if (selected.length === 0) {
-        alert("No pages selected");
+      const selected = selectedPages.value.map(page => page.name).join(", ");
+      if (selected) {
+        alert(`Selected pages: ${selected}`);
       } else {
-        const pageNames = selected.map((page) => page.name).join(", ");
-        alert(`Selected pages: ${pageNames}`);
+        alert("No pages selected");
       }
     };
 
@@ -110,6 +111,8 @@ label {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  position: relative;
+  padding-right: 30px;
 }
 
 span {
@@ -121,16 +124,48 @@ span {
 }
 
 input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #bdbdbd;
-  border-radius: 6px;
-  outline: none;
+  position: absolute;
+  opacity: 0;
   cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
-input[type="checkbox"]:checked {
-  accent-color: #2469f6;
+.checkmark {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 1px solid #BDBDBD;
+  border-radius: 6px;
+}
+
+input[type="checkbox"]:checked ~ .checkmark {
+  background-color: #2469F6;
+  border-color: #2469F6;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 1px 1px 0;
+  transform: rotate(45deg);
 }
 
 button {
@@ -142,7 +177,6 @@ button {
   outline: none;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 600;
   color: #1f2128;
 }
 
